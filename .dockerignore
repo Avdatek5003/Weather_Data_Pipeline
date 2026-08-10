@@ -1,0 +1,7 @@
+# .dockerignore dosyası
+.venv/
+__pycache__/
+logs/
+.env
+.git/
+.cache.sqlite
