@@ -1,0 +1,18 @@
+# Python Sanal Ortam ve Cache
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.cache.sqlite
+
+# Gizli Ayarlar ve Şifreler
+.env
+.env copy
+
+# Log Dosyaları
+logs/
+*.log
+
+# Veri ve Çıktılar (Tercihe bağlı, devasa raw verileri pushlamak istemezsin)
+data/
+src/extreme_values.txt

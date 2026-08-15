@@ -7,7 +7,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-#Configden şehir verilerini çekme
+#Config'den şehir verilerini çekme
 from src.config import CITY_THRESHOLDS, LOCATION_SOURCES
 
 #Loglama altyapısı
@@ -19,16 +19,22 @@ logger = get_logger(__name__)
 # .env dosyasındaki gizli bilgileri yüklüyoruz
 load_dotenv()
 
-RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "d83487a418msh9c3190e57937301p1fa1d1jsn58a5f8ea9cbe") 
-RAPIDAPI_HOST = "meteostat.p.rapidapi.com"
 
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY") 
+RAPIDAPI_HOST = "meteostat.p.rapidapi.com"  
 
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "Avdatek5003")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
-DB_NAME = os.getenv("DB_NAME", "Weather_Data_Pipeline")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST", "localhost")  
+DB_PORT = os.getenv("DB_PORT", "5432")       
+DB_NAME = os.getenv("DB_NAME")
 
+#Güvenlik kontrolü
+if not RAPIDAPI_KEY or not DB_PASSWORD:
+    logger.error("API Key veya Veritabanı şifresi .env dosyasından okunamadı!")
+    raise ValueError(".env dosyanızı kontrol edin. Hassas veriler eksik.")
+
+# Her şey yolundaysa veritabanı linkini oluştur
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 

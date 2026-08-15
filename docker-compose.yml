@@ -1,0 +1,50 @@
+services:
+  # 1. VERİTABANI KONTEYNERİ (POSTGRESQL)
+  db:
+    image: postgres:15
+    container_name: weather_postgres
+    restart: always
+    env_file:
+      - .env  # Hassas bilgileri ve şifreyi doğrudan .env dosyasından okur
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  # 2. ARAYÜZ KONTEYNERİ (STREAMLIT)
+  web:
+    image: ahmetavdatek/weather-app:latest
+    container_name: weather_streamlit
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db  # Docker ağındaki veritabanı servis adı
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+
+# 3. YENİ: DOCKER İÇİ WEB VERİTABANI PANELİ (PGADMIN)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: weather_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com    # Panele giriş mailin
+      PGADMIN_DEFAULT_PASSWORD: admin           # Panele giriş şifren
+    ports:
+      - "5050:80"                               # Panele 5050 portundan gireceğiz
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
+  pgadmin_data:

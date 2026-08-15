@@ -24,7 +24,11 @@ CITY_THRESHOLDS = {
     "Madrid":    {"max_temp": 40.7, "min_temp": -10.1, "max_prcp": 87.0,  "max_snow": 50.0},
     "Brüksel":   {"max_temp": 39.7, "min_temp": -21.1, "max_prcp": 95.2,  "max_snow": 35.0},
     "Roma":      {"max_temp": 42.9, "min_temp": -7.8,  "max_prcp": 99.0,  "max_snow": 0.9},
-    "Los Angeles":{"max_temp": 43.0, "min_temp": -5.0,  "max_prcp": 157.0, "max_snow": 0.0}
+    "Los Angeles":{"max_temp": 43.0, "min_temp": -5.0,  "max_prcp": 157.0, "max_snow": 0.0},
+    "Seul": {"max_temp": 39.6,"min_temp": -23.1, "max_prcp": 354.7,"max_snow": 31.0 },
+    "Rio de Janeiro": {"max_temp": 43.2, "min_temp": 4.8, "max_prcp": 360.2,"max_snow": 0.0 },
+    "Ottawa": { "max_temp": 37.8, "min_temp": -38.9,"max_prcp": 109.0,"max_snow": 97.0},
+    "Atina": {"max_temp": 44.8,"min_temp": -6.5, "max_prcp": 150.2,"max_snow": 25.0 }
     
     
 }
@@ -51,7 +55,11 @@ LOCATION_SOURCES = {
     "Madrid":{"type": "point","lat":40.47,"lon": -3.57},
     "Brüksel": {"type": "point","lat":50.90, "lon":4.48},
     "Roma": {"type": "point","lat":41.80, "lon":12.25},
-    "Los Angales": {"type": "point","lat":33.94, "lon":-118.39}
+    "Los Angales": {"type": "point","lat":33.94, "lon":-118.39},
+    "Seul": {"type": "point","lat": 37.57, "lon": 126.97 },
+    "Rio de Janeiro": {"type": "point", "lat": -22.82,"lon": -43.25 },
+    "Ottawa": {"type": "point", "lat": 45.32, "lon": -75.67 },
+    "Atina": {"type": "point","lat": 37.97,"lon": 23.72 }
     
 }
 

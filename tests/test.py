@@ -5,12 +5,19 @@ import time
 
 load_dotenv()
 
-RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "d83487a418msh9c3190e57937301p1fa1d1jsn58a5f8ea9cbe") 
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY") 
 RAPIDAPI_HOST = "meteostat.p.rapidapi.com"
 
 CITIES = {
-    "Roma": {"lat":41.80, "lon":12.25},
-    "Los Angales": {"lat":40.78, "lon":-73.97}
+    
+    "Seul": {"lat": 37.57, "lon": 126.97 },
+
+    "Rio de Janeiro": { "lat": -22.82,"lon": -43.25 },
+
+    "Ottawa": { "lat": 45.32, "lon": -75.67 },
+
+    "Atina": {"lat": 37.97,"lon": 23.72 }
+
 }
 
 def check_station_inventory():
