@@ -59,7 +59,7 @@ def load_latest_center_data(city_name):
     WITH RankedWeather AS (
         SELECT 
             c.city_name as location_name, c.country, c.latitude, c.longitude,
-            h.record_time, h.temperature_c, h.apparent_temp_c as dewpoint_c, 
+            h.record_time, h.temperature_c, h.apparent_temp_c secondary_temp_c, 
             h.humidity_pct, h.wind_speed_kmh, h.wind_direction_deg, 
             h.sea_level_pressure_hpa, h.precipitation_mm, NULL as wx_string,
             h.weather_code
@@ -90,7 +90,7 @@ def load_latest_airport_data(airport_name):
     WITH RankedWeather AS (
         SELECT 
             a.airport_name as location_name, a.country, a.latitude, a.longitude,
-            h.record_time, h.temperature_c, h.dewpoint_c, 
+            h.record_time, h.temperature_c, h.dewpoint_c as secondary_temp_c, 
             h.humidity_pct, h.wind_speed_kmh, h.wind_direction_deg, 
             h.sea_level_pressure_hpa, h.precipitation_mm, h.wx_string,
             NULL as weather_code
@@ -371,9 +371,32 @@ if not df_latest.empty:
         st.caption(f"📡 Ölçüm / Okuma Saati (Şehrin Yerel Saatiyle): `{record_time_local}`")
         
         c1, c2, c3 = st.columns(3)
-        c1.metric("🌡️ Sıcaklık", f"{df_latest['temperature_c'].iloc[0]:.1f} °C")
-        c2.metric("💧 Çiğ Noktası", f"{df_latest['dewpoint_c'].iloc[0]:.1f} °C" if pd.notna(df_latest['dewpoint_c'].iloc[0]) else "N/A")
-        c3.metric("💦 Nem", f"% {df_latest['humidity_pct'].iloc[0]:.1f}" if pd.notna(df_latest['humidity_pct'].iloc[0]) else "N/A")
+        c1.metric(
+            "🌡️ Sıcaklık",
+            f"{df_latest['temperature_c'].iloc[0]:.1f} °C"
+        )
+
+        secondary_temp = df_latest['secondary_temp_c'].iloc[0]
+
+        secondary_label = (
+            "💧 Çiğ Noktası"
+            if is_airport
+            else "🌡️ Hissedilen Sıcaklık"
+        )
+
+        c2.metric(
+            secondary_label,
+            f"{secondary_temp:.1f} °C"
+            if pd.notna(secondary_temp)
+            else "N/A"
+        )
+
+        c3.metric(
+            "💦 Nem",
+            f"% {df_latest['humidity_pct'].iloc[0]:.1f}"
+            if pd.notna(df_latest['humidity_pct'].iloc[0])
+             else "N/A"
+        )
         
         c4, c5, c6 = st.columns(3)
         wind_dir = deg_to_compass(df_latest['wind_direction_deg'].iloc[0])

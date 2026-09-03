@@ -23,11 +23,17 @@ logger = get_logger(__name__)
 
 load_dotenv()
 
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "Avdatek5003")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
-DB_NAME = os.getenv("DB_NAME", "Weather_Data_Pipeline")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST", "localhost")  
+DB_PORT = os.getenv("DB_PORT", "5432")       
+DB_NAME = os.getenv("DB_NAME")
+
+if not DB_PASSWORD:
+    raise ValueError(
+        "DB_PASSWORD environment variable is not set. "
+        "Please configure it in your .env file."
+    )
 
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
