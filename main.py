@@ -1,5 +1,5 @@
-from src.extract import fetch_current_weather, fetch_airport_current_weather, fetch_daily_forecast
-from src.load import insert_center_weather_data, insert_airport_weather_data, insert_daily_forecast, clean_old_forecasts
+from airflow.dags.src.extract import fetch_current_weather, fetch_airport_current_weather, fetch_daily_forecast
+from airflow.dags.src.load import insert_center_weather_data, insert_airport_weather_data, insert_daily_forecast, clean_old_forecasts
 
 if __name__ == "__main__":
     print("🚀 Veri boru hattı (Pipeline) başlatılıyor...")

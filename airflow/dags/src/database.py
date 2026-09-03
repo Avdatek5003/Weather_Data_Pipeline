@@ -13,6 +13,8 @@ logger = get_logger(__name__)
 def get_db_connection():
     """PostgreSQL bağlantısı"""
     try:
+        logger.info(f"Bağlanmaya çalışılan Host: {os.getenv('DB_HOST')}")
+        logger.info(f"Bağlanmaya çalışılan DB: {os.getenv('DB_NAME')}")
         conn = psycopg2.connect(
             host=os.getenv("DB_HOST"),
             port=os.getenv("DB_PORT"),

@@ -1,17 +1,24 @@
 import os
 import sys
+
+# 1. Motoru (src) bulması için bir üst klasöre çıkıp airflow/dags'e giriyoruz:
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'airflow', 'dags')))
+# 2. Yanındaki config dosyasını her yerden garanti bulması için:
+sys.path.append(os.path.dirname(__file__))
+
 import requests
 import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import time
 
-from src.config import CITY_THRESHOLDS
+# Config'den şehir verilerini çekme (Kendi yanındaki dosyadan doğrudan okur)
+from config import CITY_THRESHOLDS
 
-#Loglama altyapısı
+# Loglama altyapısı (Airflow motorundan tertemiz alır)
 from src.logger import get_logger
 
-#Logger
+# Logger başlatma
 logger = get_logger(__name__)
 
 load_dotenv()

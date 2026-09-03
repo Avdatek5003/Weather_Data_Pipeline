@@ -1,6 +1,11 @@
+import os
+import sys
+
+# Python'a Airflow içindeki motorun (src) yerini öğretiyoruz
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'airflow', 'dags')))
+
 import streamlit as st
 import pandas as pd
-from src.database import get_db_connection
 import plotly.express as px
 import plotly.graph_objects as go
 import pycountry
@@ -8,7 +13,8 @@ from timezonefinder import TimezoneFinder
 import pytz
 from datetime import datetime
 
-
+# Uzun yollar gitti, direkt src üzerinden çağırıyoruz
+from src.database import get_db_connection
 from src.logger import get_logger
 
 # Bu dosya için logger'ı başlatıyoruz

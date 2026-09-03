@@ -20,6 +20,7 @@ def insert_center_weather_data(weather_data_list):
     try:
         cursor = conn.cursor()
         
+        # ON CONFLICT DO NOTHING eklendi
         insert_query = """
         INSERT INTO center_hourly_weather_data (
             city_id, record_time, temperature_c, humidity_pct, 
@@ -31,14 +32,15 @@ def insert_center_weather_data(weather_data_list):
             %(apparent_temp_c)s, %(precipitation_mm)s, %(rain_mm)s, %(snowfall_cm)s,
             %(weather_code)s, %(cloud_cover_pct)s, %(sea_level_pressure_hpa)s,
             %(wind_speed_kmh)s, %(wind_direction_deg)s
-        );
+        )
+        ON CONFLICT (city_id, record_time) DO NOTHING;
         """
         
         for data in weather_data_list:
             cursor.execute(insert_query, data)
             
         conn.commit()
-        logger.info(f"💾 Başarılı! {len(weather_data_list)} şehrin merkezi Open-Meteo verisi kaydedildi.")
+        logger.info(f"💾 Başarılı! {len(weather_data_list)} şehrin merkezi Open-Meteo verisi (çakışmalar es geçilerek) kaydedildi.")
         
     except Exception as e:
         conn.rollback()
@@ -63,6 +65,7 @@ def insert_airport_weather_data(airport_weather_list):
     try:
         cursor = conn.cursor()
         
+        # ON CONFLICT DO NOTHING eklendi
         insert_query = """
         INSERT INTO airport_hourly_weather_data (
             airport_id, record_time, temperature_c, dewpoint_c, 
@@ -72,14 +75,15 @@ def insert_airport_weather_data(airport_weather_list):
             %(airport_id)s, %(record_time)s, %(temperature_c)s, %(dewpoint_c)s,
             %(humidity_pct)s, %(wind_speed_kmh)s, %(wind_direction_deg)s,
             %(sea_level_pressure_hpa)s, %(precipitation_mm)s, %(wx_string)s
-        );
+        )
+        ON CONFLICT (airport_id, record_time) DO NOTHING;
         """
         
         for data in airport_weather_list:
             cursor.execute(insert_query, data)
             
         conn.commit()
-        logger.info(f"✈️ Başarılı! {len(airport_weather_list)} havalimanının METAR verisi kaydedildi.")
+        logger.info(f"✈️ Başarılı! {len(airport_weather_list)} havalimanının METAR verisi (çakışmalar es geçilerek) kaydedildi.")
         
     except Exception as e:
         conn.rollback()

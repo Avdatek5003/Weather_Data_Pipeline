@@ -4,6 +4,8 @@ import requests_cache
 from retry_requests import retry
 from src.database import get_cities_from_db
 import datetime
+import time
+from zoneinfo import ZoneInfo
 
 #Loglama altyapısı
 from src.logger import get_logger
@@ -14,7 +16,7 @@ logger = get_logger(__name__)
 def fetch_current_weather():
     """Veritabanındaki şehirler için Open-Meteo'dan anlık hava durumunu çeker."""
     
-    cache_session = requests_cache.CachedSession('.cache', expire_after=1800)
+    cache_session = requests_cache.CachedSession('.cache', expire_after=1600)
     retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
     openmeteo = openmeteo_requests.Client(session=retry_session)
     url = "https://api.open-meteo.com/v1/forecast"
@@ -42,10 +44,14 @@ def fetch_current_weather():
             response = responses[0]
             current = response.Current()
             
+            # UTC epoch zamanını alıp Türkiye saat dilimine (Europe/Istanbul) çeviriyoruz
+            utc_time = datetime.datetime.fromtimestamp(current.Time(), tz=ZoneInfo("UTC"))
+            local_time = utc_time.astimezone(ZoneInfo("Europe/Istanbul")).replace(tzinfo=None)
+            
             city_weather = {
                 "city_id": city_id,
                 "city_name": city_name,
-                "record_time": datetime.datetime.fromtimestamp(current.Time()),
+                "record_time": local_time,
                 "temperature_c": float(current.Variables(0).Value()),
                 "humidity_pct": float(current.Variables(1).Value()),
                 "apparent_temp_c": float(current.Variables(2).Value()),
@@ -64,6 +70,8 @@ def fetch_current_weather():
             
         except Exception as e:
             logger.error(f"❌ {city_name} merkezi için veri çekilirken hata: {e}")
+
+        time.sleep(1)
 
     return weather_data_list
 
@@ -115,11 +123,14 @@ def fetch_airport_current_weather():
             obs_time_raw = station.get("obsTime") 
             if obs_time_raw:
                 if isinstance(obs_time_raw, (int, float)):
-                    obs_time = datetime.datetime.fromtimestamp(obs_time_raw)
+                    utc_obs = datetime.datetime.fromtimestamp(obs_time_raw, tz=ZoneInfo("UTC"))
                 else:
-                    obs_time = datetime.datetime.fromisoformat(str(obs_time_raw).replace('Z', '+00:00'))
+                    utc_obs = datetime.datetime.fromisoformat(str(obs_time_raw).replace('Z', '+00:00'))
+                    if utc_obs.tzinfo is None:
+                        utc_obs = utc_obs.replace(tzinfo=ZoneInfo("UTC"))
+                obs_time = utc_obs.astimezone(ZoneInfo("Europe/Istanbul")).replace(tzinfo=None)
             else:
-                obs_time = datetime.datetime.now()
+                obs_time = datetime.datetime.now(ZoneInfo("Europe/Istanbul")).replace(tzinfo=None)
 
             wind_speed_knots = station.get("wspd")
             wind_speed_kmh = float(wind_speed_knots) * 1.852 if wind_speed_knots is not None else 0.0
@@ -164,6 +175,8 @@ def fetch_airport_current_weather():
             
         except Exception as e:
             logger.error(f"❌ {airport_name} METAR çekilirken hata: {e}")
+
+        time.sleep(1)
 
     return airport_weather_list
 

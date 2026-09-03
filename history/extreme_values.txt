@@ -1,0 +1,65 @@
+# src/config.py
+
+# Şehirlerin Tarihi Ekstrem Değerleri Kılavuzu (Sanity Check Thresholds)
+CITY_THRESHOLDS = {
+    "Viyana": {"max_temp": 40.2, "min_temp": -26.0, "max_prcp": 107.0, "max_snow": 45.0},
+    "Paris": {"max_temp": 42.6, "min_temp": -23.9, "max_prcp": 104.1, "max_snow": 40.0},
+    "Amsterdam": {"max_temp": 36.4, "min_temp": -19.7, "max_prcp": 148.0, "max_snow": 20.0},
+    "Budapeşte": {"max_temp": 41.0, "min_temp": -25.6, "max_prcp": 115.4, "max_snow": 40.0},
+    "Prag": {"max_temp": 39.7, "min_temp": -27.6, "max_prcp": 90.0, "max_snow": 38.0},
+    "Afyonkarahisar": {"max_temp": 39.8, "min_temp": -27.0, "max_prcp": 79.2, "max_snow": 88.0, "max_wind_ms": 48.9},
+    "İzmir": {"max_temp": 43.2, "min_temp": -8.2, "max_prcp": 145.3, "max_snow": 32.0},
+    "Ankara": {"max_temp": 41.0, "min_temp": -24.9, "max_prcp": 88.9, "max_snow": 33.0, "max_wind_ms": 34.0},
+    "İstanbul": {"max_temp": 40.6, "min_temp": -9.0, "max_prcp": 136.1, "max_snow": 41.0, "max_wind_ms": 20.8}, 
+    "Antalya": {"max_temp": 45.0, "min_temp": -4.6, "max_prcp": 331.5, "max_snow": 5.0, "max_wind_ms": 43.2},
+    "New York": {"max_temp": 41.1, "min_temp": -26.1, "max_prcp": 210.3, "max_snow": 70.0},
+    "Tokyo":    {"max_temp": 40.4, "min_temp": -9.2,  "max_prcp": 392.5, "max_snow": 46.0},
+    "Berlin":   {"max_temp": 39.9, "min_temp": -31.0, "max_prcp": 197.0, "max_snow": 55.0},
+    "Oslo":     {"max_temp": 34.6, "min_temp": -31.0, "max_prcp": 72.8,  "max_snow": 80.0},
+    "Londra":   {"max_temp":40.2,"min_temp":-17.4,"max_prcp":170.8,"max_snow":25},
+    "Moskova": {"max_temp": 38.2, "min_temp": -38.1, "max_prcp": 88.0, "max_snow": 78.0},
+    "Delhi":   {"max_temp": 48.4, "min_temp": -0.6, "max_prcp": 266.0, "max_snow": 0.0},
+    "Sydney":  {"max_temp": 45.8, "min_temp": 2.1, "max_prcp": 327.6, "max_snow": 0.0},
+    "Pekin":   {"max_temp": 41.9, "min_temp": -27.4, "max_prcp": 215.0, "max_snow": 33.0},
+    "Madrid":    {"max_temp": 40.7, "min_temp": -10.1, "max_prcp": 87.0,  "max_snow": 50.0},
+    "Brüksel":   {"max_temp": 39.7, "min_temp": -21.1, "max_prcp": 95.2,  "max_snow": 35.0},
+    "Roma":      {"max_temp": 42.9, "min_temp": -7.8,  "max_prcp": 99.0,  "max_snow": 0.9},
+    "Los Angeles":{"max_temp": 43.0, "min_temp": -5.0,  "max_prcp": 157.0, "max_snow": 0.0},
+    "Seul": {"max_temp": 39.6,"min_temp": -23.1, "max_prcp": 354.7,"max_snow": 31.0 },
+    "Rio de Janeiro": {"max_temp": 43.2, "min_temp": 4.8, "max_prcp": 360.2,"max_snow": 0.0 },
+    "Ottawa": { "max_temp": 37.8, "min_temp": -38.9,"max_prcp": 109.0,"max_snow": 97.0},
+    "Atina": {"max_temp": 44.8,"min_temp": -6.5, "max_prcp": 150.2,"max_snow": 25.0 }
+    
+    
+}
+
+# Hibrit Lokasyon ve İstasyon Kaynakları Sözlüğü
+LOCATION_SOURCES = {
+    "Viyana": {"type": "coord", "lat": 48.2082, "lon": 16.3738},
+    "Paris": {"type": "coord", "lat": 48.8566, "lon": 2.3522},
+    "Amsterdam": {"type": "coord", "lat": 52.3676, "lon": 4.9041},
+    "Budapeşte": {"type": "coord", "lat": 47.4979, "lon": 19.0402},
+    "Prag": {"type": "coord", "lat": 50.0755, "lon": 14.4378},
+    "Afyonkarahisar": {"type": "station", "station_id": "17190"},
+    "Ankara": {"type": "station", "station_id": "17129"},
+    "İzmir": {"type": "station", "station_id": "17220"},
+    "İstanbul": {"type": "coord", "lat": 41.0082, "lon": 28.9784},
+    "Antalya": {"type": "coord", "lat": 36.8969, "lon": 30.7133},
+    "New York": {"type": "point", "lat": 40.78, "lon": -73.96},
+    "Tokyo":    {"type": "point", "lat": 35.67, "lon": 139.65},
+    "Berlin":   {"type": "point", "lat": 52.52, "lon": 13.40},
+    "Oslo":     {"type": "point", "lat": 59.91, "lon": 10.74},
+    "Londra": {"type": "point","lat":51.50,"lon":-0.12},
+    "Moskova":{"type": "point","lat":55.75,"lon": 37.61},
+    "Delhi":{"type": "point","lat":28.61,"lon":77.20},
+    "Madrid":{"type": "point","lat":40.47,"lon": -3.57},
+    "Brüksel": {"type": "point","lat":50.90, "lon":4.48},
+    "Roma": {"type": "point","lat":41.80, "lon":12.25},
+    "Los Angales": {"type": "point","lat":33.94, "lon":-118.39},
+    "Seul": {"type": "point","lat": 37.57, "lon": 126.97 },
+    "Rio de Janeiro": {"type": "point", "lat": -22.82,"lon": -43.25 },
+    "Ottawa": {"type": "point", "lat": 45.32, "lon": -75.67 },
+    "Atina": {"type": "point","lat": 37.97,"lon": 23.72 }
+    
+}
+
